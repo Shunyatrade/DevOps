@@ -1,0 +1,40 @@
+Step 1: Install the Script
+bash# Copy the script to /usr/local/bin
+sudo mkdir -p /usr/local/bin
+sudo nano /usr/local/bin/hosts-updater.sh
+Paste the script content, then:
+bash# Make it executable
+sudo chmod +x /usr/local/bin/hosts-updater.sh
+Step 2: Set Up Automatic Updates with LaunchAgent
+bash# Create the LaunchAgent directory if it doesn't exist
+mkdir -p ~/Library/LaunchAgents
+
+# Create the plist file
+nano ~/Library/LaunchAgents/com.user.hostsupdater.plist
+Paste the plist content, then:
+bash# Load the LaunchAgent
+launchctl load ~/Library/LaunchAgents/com.user.hostsupdater.plist
+Step 3: Test the Script
+bash# Run manually to test
+sudo /usr/local/bin/hosts-updater.sh
+Key Features:
+
+Automatic daily checks (runs every 86400 seconds = 24 hours)
+Only updates if changes detected (compares files before updating)
+Creates backups in ~/.hosts_backups/ before each update
+Flushes DNS cache after updating
+Sends macOS notification with update date
+Logs everything to ~/Library/Logs/hosts-updater.log
+
+Customize Update Frequency:
+Edit the StartInterval value in the plist file:
+
+21600 = 6 hours
+43200 = 12 hours
+86400 = 24 hours (default)
+604800 = 1 week
+
+After changes, reload:
+bashlaunchctl unload ~/Library/LaunchAgents/com.user.hostsupdater.plist
+launchctl load ~/Library/LaunchAgents/com.user.hostsupdater.plist
+The script will now automatically check for updates and notify you whenever the hosts file is updated! 🎉
